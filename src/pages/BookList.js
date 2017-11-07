@@ -4,7 +4,7 @@ import Book from './shelves/Book';
 
 class BookList extends Component {
   render() {
-    const {books} = this.props;
+    const {books, onUpdate} = this.props;
     const shelves = {
       currentlyReading(){
         return books.filter(book => book.shelf === 'currentlyReading');
@@ -16,7 +16,7 @@ class BookList extends Component {
         return books.filter(book => book.shelf === 'read');
       }
     }
-    console.log(books,shelves);
+
     return (
       <div className="list-books">
       <div className="list-books-title">
@@ -26,7 +26,7 @@ class BookList extends Component {
         <div>
           {
             books.length > 0 ?
-            Object.keys(shelves).map((shelve, index) => <Book key={index} title={shelve} books={shelves[shelve]()}/>):
+            Object.keys(shelves).map((shelve, index) => <Book key={index} title={shelve} onUpdate={onUpdate} books={shelves[shelve]()}/>):
             null
           }
         </div>

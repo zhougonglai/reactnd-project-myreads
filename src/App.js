@@ -17,21 +17,42 @@ class BooksApp extends React.Component {
     showSearchPage: false
   }
   componentDidMount(){
+    this.getAll();
+  }
+
+  getBook(id){
+    BooksAPI.get(id).then(book => {
+
+    });
+  }
+
+  getAll(){
     BooksAPI.getAll().then(books => {
       this.setState({books});
     })
   }
 
+  update(book, shelf){
+    BooksAPI.update(book, shelf).then(newBook => {
+      this.getAll();
+    })
+  }
+
+  search(query, maxResults){
+    BooksAPI.search(query, maxResults).then(book => {
+      
+    })
+  }
 
   render() {
     const {books} = this.state;
     return (
       <div className="app">
         <Route path="/" exact render={() => (
-          <BookList books={books}/>
+          <BookList books={books} onUpdate={(book,shelf) => this.update(book, shelf)}/>
         )}/>
         <Route path="/search" exact render={() => (
-          <SearchPage />
+          <SearchPage search={BooksAPI.search} onUpdate={(book,shelf) => this.update(book, shelf)}/>
         )} />
       </div>
     )
