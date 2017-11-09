@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import Book from './shelves/Book';
+import PreLoading from '../util/PreLoading';
 
 class BookList extends Component {
   render() {
@@ -21,13 +22,15 @@ class BookList extends Component {
       <div className="list-books">
       <div className="list-books-title">
         <h1>MyReads</h1>
+        {/* TODO: 书本购物车 */}
+        <button className="shopping-card right">shopping-card</button>
       </div>
       <div className="list-books-content">
         <div>
           {
             books.length > 0 ?
             Object.keys(shelves).map((shelve, index) => <Book key={index} title={shelve} onUpdate={onUpdate} books={shelves[shelve]()}/>):
-            null
+            <PreLoading />
           }
         </div>
       </div>

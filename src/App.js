@@ -12,18 +12,14 @@ class BooksApp extends React.Component {
      * we're on, use the URL in the browser's address bar. This will ensure that
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
+     * 新增 购物车 -> popup -> 做结算页... 想到一连串的后续逻辑.还是算了.过好双十一就好
      */
+    shoppingCard: [],
     books:[],
     showSearchPage: false
   }
   componentDidMount(){
     this.getAll();
-  }
-
-  getBook(id){
-    BooksAPI.get(id).then(book => {
-
-    });
   }
 
   getAll(){
@@ -33,7 +29,7 @@ class BooksApp extends React.Component {
   }
 
   update(book, shelf){
-    BooksAPI.update(book, shelf).then(newBook => {
+    BooksAPI.update(book, shelf).then(res => {
       this.getAll();
     })
   }
