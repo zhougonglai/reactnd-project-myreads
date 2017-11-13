@@ -12,7 +12,6 @@ class BooksApp extends React.Component {
      * we're on, use the URL in the browser's address bar. This will ensure that
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
-     * 新增 购物车 -> popup -> 做结算页... 想到一连串的后续逻辑.还是算了.过好双十一就好
      */
     shoppingCard: [],
     books:[],
@@ -28,16 +27,25 @@ class BooksApp extends React.Component {
     })
   }
 
+  // abandon 废弃 : 本身的考虑是以服务端为标准 来保持本地搜索页与书架上的统一.
   update(book, shelf){
     BooksAPI.update(book, shelf).then(res => {
       this.getAll();
     })
   }
+  // Teacher advice.
+  handleBookShelfChange = (book, shelf) => {
+    if (book.shelf !== shelf) {
+      BooksAPI.update(book, shelf).then(() => {
+        book.shelf = shelf
 
-  search(query, maxResults){
-    BooksAPI.search(query, maxResults).then(book => {
-      
-    })
+        // Filter out the book and append it to the end of the list
+        // so it appears at the end of whatever shelf it was added to.
+        this.setState(preState => ({
+          books: preState.books.filter(b => b.id !== book.id).concat([ book ])
+        }))
+      })
+    }
   }
 
   render() {
@@ -45,10 +53,10 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         <Route path="/" exact render={() => (
-          <BookList books={books} onUpdate={(book,shelf) => this.update(book, shelf)}/>
+          <BookList books={books} onUpdate={this.handleBookShelfChange}/>
         )}/>
         <Route path="/search" exact render={() => (
-          <SearchPage search={BooksAPI.search} onUpdate={(book,shelf) => this.update(book, shelf)}/>
+          <SearchPage books={books} onUpdate={this.handleBookShelfChange}/>
         )} />
       </div>
     )

@@ -22,7 +22,6 @@ class BookList extends Component {
       <div className="list-books">
       <div className="list-books-title">
         <h1>MyReads</h1>
-        {/* TODO: 书本购物车 */}
         <button className="shopping-card right">shopping-card</button>
       </div>
       <div className="list-books-content">
