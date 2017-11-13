@@ -27,7 +27,7 @@ class BooksApp extends React.Component {
     })
   }
 
-  // abandon 废弃 : 本身的考虑是以服务端为标准 来保持本地搜索页与书架上的统一.
+  // abandon 废弃 : 本身的考虑是以服务端为标准 来保持本地搜索页与书架上的统一.来达到'同步'的意思...
   update(book, shelf){
     BooksAPI.update(book, shelf).then(res => {
       this.getAll();
